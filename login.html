@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login & Register</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#ffffff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    width:400px;
+    background:#f8f8f8;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,0.15);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:#333;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:15px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    background:#007BFF;
+    color:white;
+    border:none;
+    border-radius:5px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+p{
+    text-align:center;
+    margin-top:15px;
+}
+
+a{
+    color:#007BFF;
+    cursor:pointer;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.form{
+    display:none;
+}
+
+.active{
+    display:block;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Login Form -->
+    <div id="loginForm" class="form active">
+
+        <h2>Login</h2>
+
+        <input type="email" id="loginEmail" placeholder="Email">
+
+        <input type="password" id="loginPassword" placeholder="Password">
+
+        <button onclick="login()">Login</button>
+
+        <p>
+            Don't have an account?
+            <a onclick="showRegister()">Register</a>
+        </p>
+
+    </div>
+
+    <!-- Register Form -->
+    <div id="registerForm" class="form">
+
+        <h2>Create Account</h2>
+
+        <input type="text" id="Username" placeholder="User name">
+
+        <input type="email" id="email" placeholder="Email">
+
+        <input type="password" id="password" placeholder="Password">
+
+        <input type="password" id="confirmPassword" placeholder="Confirm Password">
+
+        <button onclick="register()">Register</button>
+
+        <p>
+            Already have an account?
+            <a onclick="showLogin()">Login</a>
+        </p>
+
+    </div>
+
+</div>
+
+<script>
+
+function showRegister(){
+    document.getElementById("loginForm").classList.remove("active");
+    document.getElementById("registerForm").classList.add("active");
+}
+
+function showLogin(){
+    document.getElementById("registerForm").classList.remove("active");
+    document.getElementById("loginForm").classList.add("active");
+}
+
+function register(){
+
+    let Username=document.getElementById("Username").value;
+    let email=document.getElementById("email").value;
+    let pass=document.getElementById("password").value;
+    let confirm=document.getElementById("confirmPassword").value;
+
+    if(usename=="" || email=="" || pass=="" || confirm==""){
+        alert("Please fill all fields.");
+        return;
+    }
+
+    if(pass!==confirm){
+        alert("Passwords do not match.");
+        return;
+    }
+
+    let user={
+        Username:Username,
+        email:email,
+        password:pass
+    };
+
+    localStorage.setItem(email,JSON.stringify(user));
+
+    alert("Registration Successful!");
+
+    showLogin();
+}
+
+function login(){
+
+    let email=document.getElementById("loginEmail").value;
+    let pass=document.getElementById("loginPassword").value;
+
+    let data=localStorage.getItem(email);
+
+    if(data==null){
+        alert("User not found.");
+        return;
+    }
+
+    let user=JSON.parse(data);
+
+    if(user.password===pass){
+        alert("Login Successful!");
+    }else{
+        alert("Incorrect Password.");
+    }
+
+}
+
+</script>
+
+</body>
+</html>
